@@ -1,9 +1,8 @@
-import {categories, products, reviews} from "../db.js";
-
 export const Query = {
     hello: () => "Hello GraphQL",
     age: () => 26,
     products: (parent, args, context) => {
+        const { products, reviews } = context
         let filteredProducts = products;
         let noOfRating = 0;
         let avgCalculatedRating;
@@ -26,12 +25,17 @@ export const Query = {
         return filteredProducts
     },
     category: (parent, args, context) => {
+        const { categories } = context
         const categoryId = args.id
         return categories.find(category => category.id === categoryId)
     },
     product: (parent, args, context) => {
+        const { products } = context
         const productId = args.id
         return products.find(product => product.id === productId)
     },
-    categories: () => categories
+    categories: (parent, args, context) => {
+        const { categories } = context
+        return categories;
+    }
 }

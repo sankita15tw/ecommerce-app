@@ -1,8 +1,8 @@
 import {v4 as uuid} from "uuid";
-import {categories, products, reviews} from "../db.js";
 
 export const Mutation = {
     addCategory: (parent, {input}, context) => {
+        const { categories } = context
         const id = uuid()
         const newCategory = {
             id, name: input.name
@@ -11,6 +11,7 @@ export const Mutation = {
         return newCategory
     },
     addProduct: (parent, {input}, context) => {
+        const { categories, products } = context
         const id = uuid()
         const {name, description, quantity, price, image, onSale} = input
         const productCategory = input.category
@@ -23,6 +24,7 @@ export const Mutation = {
     },
 
     addReview: (parent, {input}, context) => {
+        const { reviews } = context
         const id = uuid()
         const {date, title, comment, rating, productId} = input
         const newReview = {
