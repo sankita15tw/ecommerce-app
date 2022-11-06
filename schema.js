@@ -67,5 +67,7 @@ export const typeDefs = gql`
         addCategory(input: CategoryInput!): Category!
         addProduct(input: ProductInput!): Product!
         addReview(input: ReviewInput!): Review!
+        deleteCategory(id: String!): Boolean
+        deleteProduct(id: String!): Boolean
     }
 `

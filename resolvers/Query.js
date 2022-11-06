@@ -2,18 +2,18 @@ export const Query = {
     hello: () => "Hello GraphQL",
     age: () => 26,
     products: (parent, args, context) => {
-        const { products, reviews } = context
-        let filteredProducts = products;
+        const { db } = context
+        let filteredProducts = db.products;
         let noOfRating = 0;
         let avgCalculatedRating;
         const {filter} = args
         if (filter && filter.onSale) {
-            filteredProducts = products.filter(product => product.onSale)
+            filteredProducts = db.products.filter(product => product.onSale)
         }
         if (filter && [1, 2, 3, 4, 5].includes(filter.avgRating)) {
             filteredProducts = filteredProducts.filter(filteredProduct => {
                 let sumRating = 0;
-                const filteredReviews = reviews.filter(review => {
+                const filteredReviews = db.reviews.filter(review => {
                     return review.productId === filteredProduct.id
                 })
                 noOfRating = filteredReviews.length
@@ -25,17 +25,17 @@ export const Query = {
         return filteredProducts
     },
     category: (parent, args, context) => {
-        const { categories } = context
+        const { db } = context
         const categoryId = args.id
-        return categories.find(category => category.id === categoryId)
+        return db.categories.find(category => category.id === categoryId)
     },
     product: (parent, args, context) => {
-        const { products } = context
+        const { db } = context
         const productId = args.id
-        return products.find(product => product.id === productId)
+        return db.products.find(product => product.id === productId)
     },
     categories: (parent, args, context) => {
-        const { categories } = context
-        return categories;
+        const { db } = context
+        return db.categories;
     }
 }
