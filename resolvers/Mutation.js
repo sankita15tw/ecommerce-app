@@ -53,5 +53,33 @@ export const Mutation = {
         db.products = db.products.filter(product => product.id !== id)
         db.reviews = db.reviews.filter(review => review.productId !== id)
         return true
+    },
+
+    updateCategory: (parent, { id, input }, context) => {
+        const { db } = context
+        const index = db.categories.findIndex(category => category.id === id)
+        db.categories[index] = {
+            ...db.categories[index],
+            name: input.name
+        }
+        return db.categories[index]
+    },
+    updateProduct: (parent, { id, input }, context) => {
+        const { db } = context
+        const index = db.products.findIndex(product => product.id === id)
+        db.products[index] = {
+            ...db.products[index],
+            ...input
+        }
+        return db.products[index]
+    },
+    updateReview: (parent, { id, input }, context) => {
+        const { db } = context
+        const index = db.reviews.findIndex(review => review.id === id)
+        db.reviews[index] = {
+            ...db.reviews[index],
+            ...input
+        }
+        return db.reviews[index]
     }
 }
