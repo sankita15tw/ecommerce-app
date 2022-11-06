@@ -55,8 +55,17 @@ export const typeDefs = gql`
         category: CategoryInput
     }
     
+    input ReviewInput {
+        date: String!,
+        title: String!,
+        comment: String!,
+        rating: Int,
+        productId: String!,
+    }
+    
     type Mutation {
         addCategory(input: CategoryInput!): Category!
         addProduct(input: ProductInput!): Product!
+        addReview(input: ReviewInput!): Review!
     }
 `
