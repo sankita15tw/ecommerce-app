@@ -39,5 +39,24 @@ export const typeDefs = gql`
         category(id: String!) : Category
         products(filter: ProductsFilteredInput): [Product!]!
         categories: [Category!]!
+    },
+    
+    input CategoryInput {
+        name: String
+    }
+    
+    input ProductInput {
+        name: String!,
+        description: String,
+        quantity: Int!,
+        price: Float!,
+        image: String,
+        onSale: Boolean,
+        category: CategoryInput
+    }
+    
+    type Mutation {
+        addCategory(input: CategoryInput!): Category!
+        addProduct(input: ProductInput!): Product!
     }
 `
