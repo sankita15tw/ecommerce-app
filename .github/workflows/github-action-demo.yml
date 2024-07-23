@@ -45,10 +45,19 @@ jobs:
           queries: 'security-and-quality'
           name: JavaScript CodeQL Configuration
 
-      - name: Perform CodeQL Analysis
+      - name: Perform BFF CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
+          paths-ignore: |
+            - 'app/**'
+
+      - name: Perform APP CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
+          paths-ignore: |
+            - 'bff/**'
   appBuild:
     needs: [ determine-changes ]
     if: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES == 'true' }}
