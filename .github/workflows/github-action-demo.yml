@@ -45,7 +45,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           queries: 'security-and-quality'
-          name: JavaScript CodeQL Configuration
+          config-file: ./.github/codeql/app-codeql-config.yml
 
       - name: Perform APP CodeQL Analysis
         uses: github/codeql-action/analyze@v3
@@ -78,13 +78,12 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           queries: 'security-and-quality'
-          name: JavaScript CodeQL Configuration
+          config-file: ./.github/codeql/bff-codeql-config.yml
 
       - name: Perform BFF CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
-          config-file: ./.github/codeql/bff-codeql-config.yml
 
 
   appBuild:
