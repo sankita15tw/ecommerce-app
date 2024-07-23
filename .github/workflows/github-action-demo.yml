@@ -21,7 +21,41 @@ jobs:
               - 'bff/**'
             app:
               - 'app/**'
-  code_analysis:
+  app_code_analysis:
+    if: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES == 'true' }}
+    name: Analyze code
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: 'security-and-quality'
+          name: JavaScript CodeQL Configuration
+
+      - name: Perform APP CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
+          paths-ignore: |
+            - 'bff/**'
+
+
+  bff_code_analysis:
+    if: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES == 'true' }}
     name: Analyze code
     runs-on: ubuntu-latest
     permissions:
@@ -52,12 +86,7 @@ jobs:
           paths-ignore: |
             - 'app/**'
 
-      - name: Perform APP CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:${{matrix.language}}"
-          paths-ignore: |
-            - 'bff/**'
+
   appBuild:
     needs: [ determine-changes ]
     if: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES == 'true' }}
