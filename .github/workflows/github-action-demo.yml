@@ -22,8 +22,9 @@ jobs:
             app:
               - 'app/**'
   app_code_analysis:
+    needs: [ determine-changes ]
     if: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES == 'true' }}
-    name: Analyze code
+    name: Analyze APP code
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -55,8 +56,9 @@ jobs:
 
 
   bff_code_analysis:
+    needs: [ determine-changes ]
     if: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES == 'true' }}
-    name: Analyze code
+    name: Analyze BFF code
     runs-on: ubuntu-latest
     permissions:
       actions: read
