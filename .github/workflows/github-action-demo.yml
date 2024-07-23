@@ -43,15 +43,14 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
+          config-file: ./.github/codeql/app-codeql-config.yml
           languages: ${{ matrix.language }}
           queries: 'security-and-quality'
-          config-file: ./.github/codeql/app-codeql-config.yml
 
       - name: Perform APP CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
-          config-file: ./.github/codeql/app-codeql-config.yml
 
 
   bff_code_analysis:
@@ -76,9 +75,9 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
+          config-file: ./.github/codeql/bff-codeql-config.yml
           languages: ${{ matrix.language }}
           queries: 'security-and-quality'
-          config-file: ./.github/codeql/bff-codeql-config.yml
 
       - name: Perform BFF CodeQL Analysis
         uses: github/codeql-action/analyze@v3
