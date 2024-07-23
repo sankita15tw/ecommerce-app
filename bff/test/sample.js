@@ -1,1 +1,1 @@
-console.log('BFF test workflows2 1234')
+console.log('BFF test workflows2')
