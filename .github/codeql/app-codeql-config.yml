@@ -1,0 +1,4 @@
+name: APP CodeQL Configuration
+
+paths-ignore:
+  - bff/**

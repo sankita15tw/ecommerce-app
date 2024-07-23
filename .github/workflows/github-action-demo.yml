@@ -51,8 +51,7 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
-          paths-ignore: |
-            - 'bff/**'
+          config-file: ./.github/codeql/app-codeql-config.yml
 
 
   bff_code_analysis:
@@ -85,8 +84,7 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
-          paths-ignore: |
-            - 'app/**'
+          config-file: ./.github/codeql/bff-codeql-config.yml
 
 
   appBuild:
