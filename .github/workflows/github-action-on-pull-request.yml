@@ -1,0 +1,13 @@
+name: PR-Based Check for Calypso App
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  rollout_dev:
+    name: dev
+    uses: ./.github/workflows/calypso_deploy.yml
+    with:
+      HAS_APP_CHANGES: true
+      HAS_BFF_CHANGES: true

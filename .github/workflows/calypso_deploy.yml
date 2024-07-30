@@ -1,0 +1,74 @@
+name: Build and deploy Calypso assets
+
+on:
+  workflow_call:
+    inputs:
+      HAS_APP_CHANGES:
+        type: boolean
+        required: true
+        description: Whether changes include app changes
+      HAS_BFF_CHANGES:
+        type: boolean
+        required: true
+        description: Whether changes include bff changes
+
+jobs:
+  code_analysis:
+    name: Analyze code
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: 'security-and-quality'
+
+      - name: Perform APP CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
+
+  appBuild:
+    if: ${{ github.event.inputs.determine-changes.outputs.HAS_APP_CHANGES == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo “🎉 APP build successful for ${{ github.event_name }} event.”
+  bffBuild:
+    needs: [ determine-changes ]
+    if: ${{ github.event.inputs.determine-changes.outputs.HAS_BFF_CHANGES == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo “🎉 BFF build successful for ${{ github.event_name }} event.”
+  app-deploy-without-bff:
+    needs: [ determine-changes, appBuild ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo “🎉 App deployment without bff successful for ${{ github.event_name }}.
+  app-deploy:
+    needs: [ determine-changes, appBuild, bffBuild ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo “🎉 App deployment with bff successful for ${{ github.event_name }}.
+  bff-deploy:
+    needs: [ determine-changes, appBuild, bffBuild ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo “🎉 BFF deployment with bff successful for ${{ github.event_name }}.
+  bff-deploy-without-app:
+    needs: [ determine-changes, bffBuild ]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo “🎉 BFF deployment without app successful for ${{ github.event_name }}.”

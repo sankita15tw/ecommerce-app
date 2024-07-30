@@ -18,37 +18,10 @@ on:
         required: true
         default: false
 jobs:
-  appBuild:
-    if: ${{ github.event.inputs.deploy_app == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo “🎉 APP build successful for ${{ github.event_name }} event.”
-  bffBuild:
-    if: ${{ github.event.inputs.deploy_bff == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo “🎉 BFF build successful for ${{ github.event_name }} event.”
-  app-deploy-without-bff:
-    needs: [appBuild]
-    if: (github.event.inputs.deploy_app == 'true' && github.event.inputs.deploy_bff == 'false')
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo “🎉 App deployment without bff successful for ${{ github.event_name }}.
-  app-deploy:
-    needs: [ appBuild, bffBuild ]
-    if: (needs.appBuild.result == 'success' && needs.bffBuild.result == 'success')
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo “🎉 App deployment with bff successful for ${{ github.event_name }}.
-  bff-deploy:
-    needs: [ appBuild, bffBuild ]
-    if: (needs.appBuild.result == 'success' && needs.bffBuild.result == 'success')
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo “🎉 BFF deployment with bff successful for ${{ github.event_name }}.
-  bff-deploy-without-app:
-    needs: [bffBuild]
-    if: (github.event.inputs.deploy_app == 'false' && github.event.inputs.deploy_bff == 'true')
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo “🎉 BFF deployment without app successful for ${{ github.event_name }}.”
+  rollout_dev:
+    needs: [ determine-changes ]
+    name: dev
+    uses: ./.github/workflows/calypso_deploy.yml
+    with:
+      HAS_APP_CHANGES: ${{ github.event.inputs.deploy_app }}
+      HAS_BFF_CHANGES: ${{ github.event.inputs.deploy_bff }}

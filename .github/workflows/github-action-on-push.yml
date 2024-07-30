@@ -1,0 +1,30 @@
+name: GitHub Actions Demo yipee
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+  push:
+    branches:
+      - `main`
+jobs:
+  determine-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      HAS_APP_CHANGES: ${{ steps.changes.outputs.app }}
+      HAS_BFF_CHANGES: ${{ steps.changes.outputs.bff }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Determine new changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            bff:
+              - 'bff/**'
+            app:
+              - 'app/**'
+  rollout_dev:
+    needs: [ determine-changes ]
+    name: dev
+    uses: ./.github/workflows/calypso_deploy.yml
+    with:
+      HAS_APP_CHANGES: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES }}
+      HAS_BFF_CHANGES: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES }}
