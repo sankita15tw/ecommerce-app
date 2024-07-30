@@ -26,5 +26,5 @@ jobs:
     name: dev
     uses: ./.github/workflows/calypso_deploy.yml
     with:
-      HAS_APP_CHANGES: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES }}
-      HAS_BFF_CHANGES: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES }}
+      HAS_APP_CHANGES: '${{ needs.determine-changes.outputs.HAS_APP_CHANGES }}'
+      HAS_BFF_CHANGES: '${{ needs.determine-changes.outputs.HAS_BFF_CHANGES }}'
