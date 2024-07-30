@@ -1,4 +1,4 @@
-name: GitHub Actions Demo yipee
+name: GitHub Actions On Push
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
@@ -26,5 +26,5 @@ jobs:
     name: dev
     uses: ./.github/workflows/calypso-deploy.yml
     with:
-      HAS_APP_CHANGES: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES == true }}
-      HAS_BFF_CHANGES: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES == true }}
+      HAS_APP_CHANGES: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES == 'true' }}
+      HAS_BFF_CHANGES: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES == 'true' }}

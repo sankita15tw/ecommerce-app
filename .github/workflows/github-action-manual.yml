@@ -11,16 +11,14 @@ on:
         type: boolean
         description: 'Deploy App changes'
         required: true
-        default: false
       deploy_bff:
         type: boolean
         description: 'Deploy Bff changes'
         required: true
-        default: false
 jobs:
   rollout_dev:
     name: dev
     uses: ./.github/workflows/calypso-deploy.yml
     with:
-      HAS_APP_CHANGES: ${{ github.event.inputs.deploy_app == true }}
-      HAS_BFF_CHANGES: ${{ github.event.inputs.deploy_bff == true }}
+      HAS_APP_CHANGES: ${{ github.event.inputs.deploy_app == 'true' }}
+      HAS_BFF_CHANGES: ${{ github.event.inputs.deploy_bff == 'true' }}
