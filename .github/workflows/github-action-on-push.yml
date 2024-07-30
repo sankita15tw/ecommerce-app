@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
-      - `main`
+      - 'main'
 jobs:
   determine-changes:
     runs-on: ubuntu-latest
