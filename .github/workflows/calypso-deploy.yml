@@ -42,12 +42,12 @@ jobs:
           category: "/language:${{matrix.language}}"
 
   appBuild:
-    if: ${{ inputs.HAS_APP_CHANGES == 'true' }}
+    if: ${{ inputs.HAS_APP_CHANGES }}
     runs-on: ubuntu-latest
     steps:
       - run: echo “🎉 APP build successful for ${{ github.event_name }} event.”
   bffBuild:
-    if: ${{ inputs.HAS_BFF_CHANGES == 'true' }}
+    if: ${{ inputs.HAS_BFF_CHANGES }}
     runs-on: ubuntu-latest
     steps:
       - run: echo “🎉 BFF build successful for ${{ github.event_name }} event.”
