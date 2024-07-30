@@ -24,7 +24,7 @@ jobs:
   rollout_dev:
     needs: [ determine-changes ]
     name: dev
-    uses: ./.github/workflows/calypso_deploy.yml
+    uses: ./.github/workflows/calypso-deploy.yml
     with:
-      HAS_APP_CHANGES: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES }} || false
-      HAS_BFF_CHANGES: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES }} || false
+      HAS_APP_CHANGES: ${{ needs.determine-changes.outputs.HAS_APP_CHANGES == true }}
+      HAS_BFF_CHANGES: ${{ needs.determine-changes.outputs.HAS_BFF_CHANGES == true }}

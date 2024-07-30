@@ -21,7 +21,7 @@ jobs:
   rollout_dev:
     needs: [ determine-changes ]
     name: dev
-    uses: ./.github/workflows/calypso_deploy.yml
+    uses: ./.github/workflows/calypso-deploy.yml
     with:
       HAS_APP_CHANGES: ${{ github.event.inputs.deploy_app }}
       HAS_BFF_CHANGES: ${{ github.event.inputs.deploy_bff }}
