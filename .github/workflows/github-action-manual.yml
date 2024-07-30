@@ -19,7 +19,6 @@ on:
         default: false
 jobs:
   rollout_dev:
-    needs: [ determine-changes ]
     name: dev
     uses: ./.github/workflows/calypso-deploy.yml
     with:
