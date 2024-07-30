@@ -22,5 +22,5 @@ jobs:
     name: dev
     uses: ./.github/workflows/calypso-deploy.yml
     with:
-      HAS_APP_CHANGES: ${{ github.event.inputs.deploy_app == 'true' }}
-      HAS_BFF_CHANGES: ${{ github.event.inputs.deploy_bff == 'true' }}
+      HAS_APP_CHANGES: ${{ github.event.inputs.deploy_app == true }}
+      HAS_BFF_CHANGES: ${{ github.event.inputs.deploy_bff == true }}
